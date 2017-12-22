@@ -85,3 +85,44 @@ class PasswordResetForm(FlaskForm):
                 self.errors['validpw'] = 'Invalid Password'
                 return False
         return True
+
+class TeamForm(FlaskForm):
+    name = TextField('Name', validators=[InputRequired()])
+    subnet = TextField('Subnet', validators=[InputRequired(), IPAddress()])
+    netmask = TextField('Netmask', validators=[InputRequired(), IPAddress()])
+
+class DomainForm(FlaskForm):
+    fqdn = TextField('FQDN', validators=[InputRequired()])
+
+class WebUserForm(FlaskForm):
+    username = TextField('Username', validators=[InputRequired()])
+    password = TextField('Password', validators=[InputRequired()])
+    team = SelectField('Team', validators=[InputRequired()])
+    is_admin = BooleanField('Is Admin', validators=[InputRequired()])
+
+    def __init__(teams):
+        self.team.choices = [(0, 'None')]
+
+class ServiceForm(FlaskForm):
+    host = IntegerField('Host', validators=[InputRequired(), NumberRange(1, 4294967294])
+    port = IntegerField('Port', validators=[InputRequired(), NumberRange(1, 65535)])
+
+class CheckForm(FlaskForm):
+    name = TextField('Username', validators=[InputRequired()])
+    check_function = SelectField('Check Function', validators=[InputRequired()])
+    poller = SelectField('Poller', validators=[InputRequired()])
+    service = SelectField('Service', validators=[InputRequired()])
+
+class PollInputForm(FlaskForm):
+    input_type = SelectField('Input Type', validators=[InputRequired()])
+    # TODO Inputs?
+
+class CheckIoForm(FlaskForm):
+    check = SelectField('Check', validators=[InputRequired()])
+    # TODO expected?
+
+class CredentialForm(FlaskForm):
+    domain = SelectField('Domain', validators=[InputRequired()])
+    username = TextField('Username', validators=[InputRequired()])
+    password = TextField('Password', validators=[InputRequired()])
+    check_ios = SelectMultipleField('Check IOs', validators=[InputRequired()])

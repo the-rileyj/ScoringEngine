@@ -2,10 +2,11 @@
 {% import 'modals.html' as modals %}
 {% block content %}
 
-<table>
+<table class="col-sm-12">
 <tbody>
 <tr>
 <td>
+    <div class="col-sm-7">
     <h3>Teams</h3>
     <table class="table table-striped">
         <thead>
@@ -29,9 +30,9 @@
             </tr>
         </tbody>
     </table>
-</td>
+    </div>
 
-<td>
+    <div class="col-sm-5">
     <h3>Domains</h3>
     <table class="table table-striped">
         <thead>
@@ -49,11 +50,13 @@
             </tr>
         </tbody>
     </table>
+    </div>
 </td>
 </tr>
 
 <tr>
 <td>
+    <div class="col-sm-7">
     <h3>Web Users</h3>
     <table class="table table-striped">
         <thead>
@@ -80,9 +83,9 @@
             </tr>
         </tbody>
     </table>
-</td>
+    </div>
 
-<td>
+    <div class="col-sm-5">
     <h3>Services</h3>
     <table class="table table-striped">
         <thead>
@@ -103,11 +106,13 @@
             </tr>
         </tbody>
     </table>
+    </div>
 </td>
 </tr>
 
 <tr>
 <td>
+    <div class="col-sm-7">
     <h3>Checks</h3>
     <table class="table table-striped">
         <thead>
@@ -134,9 +139,9 @@
             </tr>
         </tbody>
     </table>
-</td>
+    </div>
 
-<td>
+    <div class="col-sm-5">
     <h3>Poll Inputs</h3>
     <table class="table table-striped">
         <thead>
@@ -157,11 +162,13 @@
             </tr>
         </tbody>
     </table>
+    </div>
 </td>
 </tr>
 
 <tr>
-    <div class="col-sm-4">
+    <td>
+    <div class="col-sm-5">
         <h3>Check IOs</h3>
         <table class="table table-striped">
             <thead>
@@ -184,7 +191,7 @@
         </table>
     </div>
 
-    <div class="col-sm-8">
+    <div class="col-sm-7">
         <h3>Credentials</h3>
         <table class="table table-striped">
             <thead>
@@ -212,11 +219,54 @@
             </tbody>
         </table>
     </div>
+    </td>
 </tr>
 </tbody>
 </table>
 
-{{ modals.start('team-modal', 'My Title') }}
+{{ modals.start('team-modal', 'Team') }}
+<form method="POST" action="{{ url_for('config') }}">
+    
+</form>
+{{ modals.end() }}
+
+{{ modals.start('domain-modal', 'Domain') }}
+<form method="POST" action="{{ url_for('config') }}">
+    
+</form>
+{{ modals.end() }}
+
+{{ modals.start('web-user-modal', 'Web User') }}
+<form method="POST" action="{{ url_for('config') }}">
+    
+</form>
+{{ modals.end() }}
+
+{{ modals.start('service-modal', 'Service') }}
+<form method="POST" action="{{ url_for('config') }}">
+    
+</form>
+{{ modals.end() }}
+
+{{ modals.start('check-modal', 'Check') }}
+<form method="POST" action="{{ url_for('config') }}">
+    
+</form>
+{{ modals.end() }}
+
+{{ modals.start('input-modal', 'Poll Input') }}
+<form method="POST" action="{{ url_for('config') }}">
+    
+</form>
+{{ modals.end() }}
+
+{{ modals.start('checkio-modal', 'Check IO') }}
+<form method="POST" action="{{ url_for('config') }}">
+    
+</form>
+{{ modals.end() }}
+
+{{ modals.start('credential-modal', 'Credential') }}
 <form method="POST" action="{{ url_for('config') }}">
     
 </form>

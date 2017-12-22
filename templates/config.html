@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% import 'modals.html' as modals %}
+{% block content %}
+
+<table>
+<tbody>
+<tr>
+<td>
+    <h3>Teams</h3>
+    <table class="table table-striped">
+        <thead>
+            <th>Name</th>
+            <th>Subnet</th>
+            <th>Netmask</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Dummy</td>
+                <td>0.0.0.0</td>
+                <td>255.255.255.255</td>
+                <td class="btn-td">{{ modals.edit_button('team-modal') }} {{ modals.delete_button() }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ modals.add_button('team-modal') }}</td>
+            </tr>
+        </tbody>
+    </table>
+</td>
+
+<td>
+    <h3>Domains</h3>
+    <table class="table table-striped">
+        <thead>
+            <th>FQDN</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>dummy.vnet</td>
+                <td class="btn-td">{{ modals.edit_button('domain-modal') }} {{ modals.delete_button() }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{ modals.add_button('domain-modal') }}</td>
+            </tr>
+        </tbody>
+    </table>
+</td>
+</tr>
+
+<tr>
+<td>
+    <h3>Web Users</h3>
+    <table class="table table-striped">
+        <thead>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Team</th>
+            <th>Is Admin</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>dummy</td>
+                <td>dummy-pass</td>
+                <td>dummy-team</td>
+                <td>True</td>
+                <td class="btn-td">{{ modals.edit_button('web-user-modal') }} {{ modals.delete_button() }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ modals.add_button('web-user-modal') }}</td>
+            </tr>
+        </tbody>
+    </table>
+</td>
+
+<td>
+    <h3>Services</h3>
+    <table class="table table-striped">
+        <thead>
+            <th>Host</th>
+            <th>Port</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>dummy-host</td>
+                <td>dummy-port</td>
+                <td class="btn-td">{{ modals.edit_button('service-modal') }} {{ modals.delete_button() }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>{{ modals.add_button('service-modal') }}</td>
+            </tr>
+        </tbody>
+    </table>
+</td>
+</tr>
+
+<tr>
+<td>
+    <h3>Checks</h3>
+    <table class="table table-striped">
+        <thead>
+            <th>Name</th>
+            <th>Check Function</th>
+            <th>Poller</th>
+            <th>Service</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>dummy</td>
+                <td>dummy-check-func</td>
+                <td>dummy-poller</td>
+                <td>dummy-service</td>
+                <td class="btn-td">{{ modals.edit_button('check-modal') }} {{ modals.delete_button() }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ modals.add_button('check-modal') }}</td>
+            </tr>
+        </tbody>
+    </table>
+</td>
+
+<td>
+    <h3>Poll Inputs</h3>
+    <table class="table table-striped">
+        <thead>
+            <th>Input Type</th>
+            <th>Inputs</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>dummy-input-type</td>
+                <td>dummy-inputs</td>
+                <td class="btn-td">{{ modals.edit_button('input-modal') }} {{ modals.delete_button() }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>{{ modals.add_button('input-modal') }}</td>
+            </tr>
+        </tbody>
+    </table>
+</td>
+</tr>
+
+<tr>
+    <div class="col-sm-4">
+        <h3>Check IOs</h3>
+        <table class="table table-striped">
+            <thead>
+                <th>Check</th>
+                <th>Expected Output</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>dummy-check</td>
+                    <td>dummy-output</td>
+                    <td class="btn-td">{{ modals.edit_button('checkio-modal') }} {{ modals.delete_button() }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>{{ modals.add_button('checkio-modal') }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-sm-8">
+        <h3>Credentials</h3>
+        <table class="table table-striped">
+            <thead>
+                <th>Domain</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Check IOs</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>dummy-domain</td>
+                    <td>dummy-username</td>
+                    <td>dummy-password</td>
+                    <td>dummy-checkios</td>
+                    <td class="btn-td">{{ modals.edit_button('credential-modal') }} {{ modals.delete_button() }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ modals.add_button('credential-modal') }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</tr>
+</tbody>
+</table>
+
+{{ modals.start('team-modal', 'My Title') }}
+<form method="POST" action="{{ url_for('config') }}">
+    
+</form>
+{{ modals.end() }}
+
+{% endblock %}

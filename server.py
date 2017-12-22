@@ -114,6 +114,12 @@ def competition():
         dm.update_setting('running', running)
     return render_template('competition.html', running=running)
 
+@app.route('/config', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def config():
+    return render_template('config.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm(dm)

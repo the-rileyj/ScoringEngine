@@ -11,12 +11,12 @@
     cursor: pointer;
 }
 
-.btn-pad {
+.btn-space {
     margin:0px 5px 0px 5px;
 }
 
-.button-td {
-    width:125px;
+.btn-td {
+    width:120px;
 }
 
 #bulk_pass_dropdown {
@@ -40,4 +40,13 @@ img {
 table {
 //    width:100%;
 //    table-layout:fixed;
+}
+
+td {
+    padding: 2px;
+//    border: 1px solid red;
+}
+
+div {
+    border: 2px solid green;
 }

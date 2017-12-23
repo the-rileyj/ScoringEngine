@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 {% import 'modals.html' as modals %}
+
+{% block head %}
+<script src="static/js/config.js"></script>
+{% endblock %}
+
 {% block content %}
+
+<button type="button" class="btn btn-primary btn-space pull-right">
+    Export
+</button>
+<button type="button" class="btn btn-primary btn-space pull-right">
+    Import
+</button>
 
 <table class="col-sm-12">
 <tbody>
@@ -224,51 +236,137 @@
 </tbody>
 </table>
 
+<button type="button" class="btn btn-primary btn-space pull-right">
+    Apply Config
+</button>
+
 {{ modals.start('team-modal', 'Team') }}
-<form method="POST" action="{{ url_for('config') }}">
-    
+
+{% if success %}
+<div class="alert alert-success">
+    Success!
+</div>
+{% endif %}
+
+<form method="POST" action="{{ url_for('config') }}" id="team-form">
+    {{ forms['team'].csrf_token }}
+    <div class="form-group">
+        {{ forms['team'].name.label }}
+        {{ forms['team'].name(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ forms['team'].subnet.label }}
+        {{ forms['team'].subnet(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ forms['team'].netmask.label }}
+        {{ forms['team'].netmask(class_="form-control") }}
+    </div>
 </form>
-{{ modals.end() }}
+{{ modals.end('team') }}
 
 {{ modals.start('domain-modal', 'Domain') }}
 <form method="POST" action="{{ url_for('config') }}">
-    
+    {{ forms['domain'].csrf_token }}
+    <div class="form-group">
+        {{ forms['domain'].fqdn.label }}
+        {{ forms['domain'].fqdn(class_="form-control") }}
+    </div>
 </form>
 {{ modals.end() }}
 
 {{ modals.start('web-user-modal', 'Web User') }}
 <form method="POST" action="{{ url_for('config') }}">
-    
+    {{ forms['web-user'].csrf_token }}
+    <div class="form-group">
+        {{ forms['web-user'].username.label }}
+        {{ forms['web-user'].username(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ forms['web-user'].password.label }}
+        {{ forms['web-user'].password(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ forms['web-user'].team.label }}
+        {{ forms['web-user'].team(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ forms['web-user'].is_admin.label }}
+        {{ forms['web-user'].is_admin(class_="form-control") }}
+    </div>
 </form>
 {{ modals.end() }}
 
 {{ modals.start('service-modal', 'Service') }}
 <form method="POST" action="{{ url_for('config') }}">
-    
+    <div class="form-group">
+        {{ forms['service'].host.label }}
+        {{ forms['service'].host(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ forms['service'].port.label }}
+        {{ forms['service'].port(class_="form-control") }}
+    </div>
 </form>
 {{ modals.end() }}
 
 {{ modals.start('check-modal', 'Check') }}
 <form method="POST" action="{{ url_for('config') }}">
-    
+    <div class="form-group">
+        {{ forms['check'].name.label }}
+        {{ forms['check'].name(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ forms['check'].check_function.label }}
+        {{ forms['check'].check_function(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ forms['check'].poller.label }}
+        {{ forms['check'].poller(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ forms['check'].service.label }}
+        {{ forms['check'].service(class_="form-control") }}
+    </div>
 </form>
 {{ modals.end() }}
 
 {{ modals.start('input-modal', 'Poll Input') }}
 <form method="POST" action="{{ url_for('config') }}">
-    
+    <div class="form-group">
+        {{ forms['input'].input_type.label }}
+        {{ forms['input'].input_type(class_="form-control") }}
+    </div>
 </form>
 {{ modals.end() }}
 
 {{ modals.start('checkio-modal', 'Check IO') }}
 <form method="POST" action="{{ url_for('config') }}">
-    
+     <div class="form-group">
+        {{ forms['checkio'].check.label }}
+        {{ forms['checkio'].check(class_="form-control") }}
+    </div>
 </form>
 {{ modals.end() }}
 
 {{ modals.start('credential-modal', 'Credential') }}
 <form method="POST" action="{{ url_for('config') }}">
-    
+    <div class="form-group">
+        {{ forms['credential'].domain.label }}
+        {{ forms['credential'].domain(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ forms['credential'].username.label }}
+        {{ forms['credential'].username(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ forms['credential'].password.label }}
+        {{ forms['credential'].password(class_="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ forms['credential'].check_ios.label }}
+        {{ forms['credential'].check_ios(class_="form-control") }}
+    </div>
 </form>
 {{ modals.end() }}
 

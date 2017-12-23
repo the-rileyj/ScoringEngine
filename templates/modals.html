@@ -11,10 +11,10 @@
             <div class="modal-body">
 {% endmacro %}
 
-{% macro end() %}
+{% macro end(id) %}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-primary" id="{{ id }}-save">Save</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>

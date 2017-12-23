@@ -118,7 +118,29 @@ def competition():
 @login_required
 @admin_required
 def config():
-    return render_template('config.html')
+    teams = []
+    domains = []
+    services = []
+    checks = []
+    check_ios = []
+
+    forms = {}
+    forms['team'] = TeamForm()
+    forms['domain'] = DomainForm()
+    forms['web-user'] = WebUserForm(teams)
+    forms['service'] = ServiceForm()
+    forms['check'] = CheckForm(services)
+    forms['input'] = PollInputForm()
+    forms['checkio'] = CheckIoForm(checks)
+    forms['credential'] = CredentialForm(domains, check_ios)
+    
+    success = False
+    if forms['team'].validate_on_submit():
+        print(forms['team'].name.data)
+        print(forms['team'].subnet.data)
+        print(forms['team'].netmask.data)
+        success = True
+    return render_template('config.html', success=success, forms=forms)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

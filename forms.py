@@ -100,11 +100,12 @@ class WebUserForm(FlaskForm):
     team = SelectField('Team', validators=[InputRequired()])
     is_admin = BooleanField('Is Admin', validators=[InputRequired()])
 
-    def __init__(teams):
-        self.team.choices = [(0, 'None')]
+    def __init__(self, teams):
+        super(WebUserForm, self).__init__()
+        self.team.choices = [(0, 'None')] + teams
 
 class ServiceForm(FlaskForm):
-    host = IntegerField('Host', validators=[InputRequired(), NumberRange(1, 4294967294])
+    host = IntegerField('Host', validators=[InputRequired(), NumberRange(1, 4294967294)])
     port = IntegerField('Port', validators=[InputRequired(), NumberRange(1, 65535)])
 
 class CheckForm(FlaskForm):
@@ -113,16 +114,34 @@ class CheckForm(FlaskForm):
     poller = SelectField('Poller', validators=[InputRequired()])
     service = SelectField('Service', validators=[InputRequired()])
 
+    def __init__(self, services):
+        super(CheckForm, self).__init__()
+        self.check_function.choices = []
+        self.poller.choices = []
+        self.service.choices = services
+
 class PollInputForm(FlaskForm):
     input_type = SelectField('Input Type', validators=[InputRequired()])
     # TODO Inputs?
 
+    def __init__(self):
+        super(PollInputForm, self).__init__()
+        self.input_type.choices = []
+
 class CheckIoForm(FlaskForm):
     check = SelectField('Check', validators=[InputRequired()])
-    # TODO expected?
+
+    def __init__(self, checks):
+        super(CheckIoForm, self).__init__()
+        self.check.choices = checks
 
 class CredentialForm(FlaskForm):
     domain = SelectField('Domain', validators=[InputRequired()])
     username = TextField('Username', validators=[InputRequired()])
     password = TextField('Password', validators=[InputRequired()])
     check_ios = SelectMultipleField('Check IOs', validators=[InputRequired()])
+
+    def __init__(self, domains, check_ios):
+        super(CredentialForm, self).__init__()
+        self.domain.choices = [(0, 'None')] + domains
+        self.check_ios.choices = check_ios

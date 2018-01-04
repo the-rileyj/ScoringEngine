@@ -78,7 +78,7 @@ def parse_teams(contents):
         validate.ip(subnet)
         validate.ip(netmask)
 
-        teams[id] = (name, subnet, netmask)
+        teams[id] = {'name':name, 'subnet':subnet, 'netmask':netmask}
     return teams
 
 def parse_users(contents, teams):
@@ -99,7 +99,7 @@ def parse_users(contents, teams):
             validate.id_exists(team_id, teams)
         validate.boolean(is_admin)
 
-        user = (team_id, username, password, is_admin)
+        user = {'tid':team_id, 'username':username, 'password':password, 'is_admin':is_admin}
         users[id] = user
     return users
 
@@ -113,7 +113,7 @@ def parse_domains(contents):
         validate.integer(id)
         id = int(id)
 
-        domains[id] = (fqdn)
+        domains[id] = {'fqdn':fqdn}
     return domains
 
 def parse_services(contents):
@@ -130,7 +130,7 @@ def parse_services(contents):
         validate.integer(host)
         validate.integer(port)
 
-        services[id] = (host, port)
+        services[id] = {'host':host, 'port':port}
     return services
 
 def parse_checks(contents, services):
@@ -153,7 +153,7 @@ def parse_checks(contents, services):
         service_id = int(service_id)
         validate.id_exists(service_id, services)
 
-        checks[id] = (name, check_function, poller, service_id)
+        checks[id] = {'name':name, 'check_function':check_function, 'poller':poller, 'sid':service_id}
     return checks
 
 def parse_check_ios(contents, poll_inputs, checks):
@@ -178,7 +178,7 @@ def parse_check_ios(contents, poll_inputs, checks):
         check_id = int(check_id)
         validate.id_exists(check_id, checks)
 
-        check_ios[id] = (input_id, expected, check_id)
+        check_ios[id] = {'iid':input_id, 'expected':expected, 'cid':check_id}
     return check_ios
 
 def parse_poll_inputs(contents):
@@ -228,7 +228,7 @@ def parse_credentials(contents, domains, check_ios):
             check_io_id = int(check_io_id)
             validate.id_exists(check_io_id, check_ios)
         
-        credentials[id] = (user, passwd, domain_id, check_io_ids)
+        credentials[id] = {'user':user, 'password':passwd, 'did':domain_id, 'ciids':check_io_ids}
     return credentials
 
 def parse_portion(portion):

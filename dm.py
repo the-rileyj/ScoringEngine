@@ -383,8 +383,7 @@ class DataManager(object):
         Write the given teams to the database.
 
         Arguments:
-            teams (Dict(int->Team args)): A mapping of team config IDs to team
-                initialization arguments
+            teams (Dict(int->Dict(attr->value))): A mapping of team config IDs to teams attributes
 
         Returns:
             Dict(int->int): A mapping of team config IDs to 
@@ -394,7 +393,8 @@ class DataManager(object):
 
         cmd = "INSERT INTO team (name, subnet, netmask) VALUES (%s, %s, %s)"
         for id, team in teams.items():
-            db_id = db.execute(cmd, team)
+            args = (team['name'], team['subnet'], team['netmask'])
+            db_id = db.execute(cmd, args)
             team_ids[id] = db_id
         return team_ids
 
@@ -403,7 +403,7 @@ class DataManager(object):
         Write the given users to the database, hashing their passwords.
 
         Arguments:
-            users (Dict(int->User args)): A mapping of user config IDs to user initialization arguments
+            users (Dict(int->Dict(attr->value))): A mapping of user config IDs to user attributes
             teams (Dict(int->int)): A mapping of team config IDs to team database IDs
 
         Returns:
@@ -413,13 +413,16 @@ class DataManager(object):
 
         cmd = ("INSERT INTO users (username, password, team_id, is_admin) "
                "VALUES (%s, %s, %s, %s)")
-        for id, user_args in users.items():
-            ptid, username, password, is_admin = user_args
+        for id, user in users.items():
+            ptid = user['tid']
+            password = user['password']
+
             tid = teams[ptid] if ptid in teams else None
             password = password.encode('utf-8')
             pwhash = bcrypt.hashpw(password, bcrypt.gensalt())
 
-            db_id = db.execute(cmd, (username, pwhash, tid, is_admin))
+            args = (user['username'], pwhash, tid, user['is_admin'])
+            db_id = db.execute(cmd, args)
             user_ids[id] = db_id
         return user_ids
 
@@ -428,8 +431,8 @@ class DataManager(object):
         Write the given domains to the database.
 
         Arguments:
-            domains (Dict(int->Domain args)): A mapping of domain config IDs to
-                domain initialization arguments
+            domains (Dict(int->Dict(attr->value))): A mapping of domain config IDs to
+                domain attributes
 
         Returns:
             Dict(int->int): A mapping of domain config IDs to
@@ -439,7 +442,8 @@ class DataManager(object):
 
         cmd = "INSERT INTO domain (fqdn) VALUES (%s)"
         for id, domain in domains.items():
-            db_id = db.execute(cmd, domain)
+            args = (domain['fqdn'])
+            db_id = db.execute(cmd, args)
             domain_ids[id] = db_id
         return domain_ids
 
@@ -448,8 +452,8 @@ class DataManager(object):
         Write the given services to the database.
 
         Arguments:
-            services (Dict(int->Service args)): A mapping of service config IDs to
-                service initialization arguments
+            services (Dict(int->Dict(attr->value))): A mapping of service config IDs to
+                service attributes
 
         Returns:
             Dict(int->int): A mapping of service config IDs to 
@@ -459,7 +463,8 @@ class DataManager(object):
 
         cmd = 'INSERT INTO service (host, port) VALUES (%s, %s)'
         for id, service in services.items():
-            db_id = db.execute(cmd, service)
+            args = (service['host'], service['port'])
+            db_id = db.execute(cmd, args)
             service_ids[id] = db_id
         return service_ids
 
@@ -468,8 +473,8 @@ class DataManager(object):
         Write the given checks to the database.
 
         Arguments:
-            checks (Dict(int->Check args)): A mapping of check config IDs to check 
-                initialization arguments
+            checks (Dict(int->Dict(attr->value))): A mapping of check config IDs to check 
+                attributes
             service_ids (Dict(int->int)): A mapping of service config IDs to 
                 service database IDs
 
@@ -482,10 +487,15 @@ class DataManager(object):
         cmd = ('INSERT INTO service_check (name, check_function, '
                 'poller, service_id) VALUES (%s, %s, %s, %s)')
         for id, check in checks.items():
-            name, check_func, poller, psid = check
+            name = check['name']
+            check_func = check['check_function']
+            poller = check['poller']
+            psid = check['sid']
+
             sid = service_ids[psid]
 
-            db_id = db.execute(cmd, (name, check_func, poller, sid))
+            args = (name, check_func, poller, sid)
+            db_id = db.execute(cmd, args)
             check_ids[id] = db_id
         return check_ids
 
@@ -494,8 +504,8 @@ class DataManager(object):
         Write the given input-output pairs to the database.
 
         Arguments:
-            check_ios (Dict(int->CheckIO args)): A mapping of check input-output
-                pair config IDs to check input-output pair initializaiton
+            check_ios (Dict(int->Dict(attr->value))): A mapping of check input-output
+                pair config IDs to check input-output pair attributes
                 arguments
             poll_inputs (Dict(int->Serialized PollInput)): A mapping of poll
                 input config IDs to serialized poll inputs
@@ -511,11 +521,15 @@ class DataManager(object):
         cmd = ('INSERT INTO check_io (input, expected, check_id) '
                 'VALUES (%s, %s, %s)')
         for id, check_io in check_ios.items():
-            piid, expected, pcid = check_io
+            piid = check_io['iid']
+            expected = check_io['expected']
+            pcid = check_io['cid']
+
             poll_input = poll_inputs[piid]
             cid = check_ids[pcid]
 
-            db_id = db.execute(cmd, (poll_input, expected, cid))
+            args = (poll_input, expected, cid)
+            db_id = db.execute(cmd, args)
             check_io_ids[id] = db_id
         return check_io_ids
 
@@ -524,8 +538,8 @@ class DataManager(object):
         Write the given input-output pairs to the database.
 
         Arguments:
-            credentials (Dict(int->Credential args)): A mapping of credential
-                config IDs to credential initialization arguments
+            credentials (Dict(int->Dict(attr->value))): A mapping of credential
+                config IDs to credential attributes
             team_ids (Dict(int->int)): A mapping of team config IDs to team database IDs
             domain_ids (Dict(int->int)): A mapping of domain config IDs to
                 domain database IDs
@@ -546,7 +560,10 @@ class DataManager(object):
         service_get = 'SELECT service_id FROM service_check WHERE id=%s'
 
         for id, credential in credentials.items():
-            user, passwd, pdomain_id, pcio_ids = credential
+            user = credential['user']
+            passwd = credential['password']
+            pdomain_id = credential['did']
+            pcio_ids = credential['ciids']
 
             cred_cmd = cred_cmd_no_domain
             if pdomain_id is not None:

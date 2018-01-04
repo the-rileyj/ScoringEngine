@@ -12,6 +12,7 @@ import flask_login
 from flask_login import LoginManager, login_user, logout_user, login_required
 from web_model import User
 from decorators import *
+import web_config
 
 app = Flask(__name__)
 app.secret_key = 'this is a secret'
@@ -117,22 +118,20 @@ def competition():
 @app.route('/config', methods=['GET', 'POST'])
 @login_required
 @admin_required
-def config():
-    teams = []
-    domains = []
-    services = []
-    checks = []
-    check_ios = []
+def configuration():
+    config = web_config.config
+    config['teams'] = {1: {'name':'Team1234', 'subnet':'192.168.1.0', 'netmask':'255.255.255.0'}}
+    config['services'] = {1: {'host':1, 'port':53}}
+    config['domains'] = {1: {'fqdn':'CCDC.DSU'}}
+    config['users'] = {1: {'username':'Team1', 'password':'Password1!', 'is_admin':False, 'team':1},
+    2: {'username':'admin', 'password':'Password1!', 'is_admin':True}}
+    config['checks'] = {1: {'name':'DNS', 'check_function':'dns_check.any_match', 'poller':'DnsPoller', 'service':1}}
+    config['check_ios'] = {1: {'check':1, 'expected':'Expected', 'input':1}}
+    config['credentials'] = {1: {'domain':1, 'username':'dsu', 'password':'Password1!', 'check_ios':[1]},
+    2: {'domain':0, 'username':'alice', 'password':'Password2!', 'check_ios':[1]}}
+    config['inputs'] = {1: {'input_type':'DnsPollInput', 'input':['A', 'team.vnet']}}
 
-    forms = {}
-    forms['team'] = TeamForm()
-    forms['domain'] = DomainForm()
-    forms['web-user'] = WebUserForm(teams)
-    forms['service'] = ServiceForm()
-    forms['check'] = CheckForm(services)
-    forms['input'] = PollInputForm()
-    forms['checkio'] = CheckIoForm(checks)
-    forms['credential'] = CredentialForm(domains, check_ios)
+    forms = web_config.get_forms()
     
     success = False
     if forms['team'].validate_on_submit():
@@ -140,7 +139,7 @@ def config():
         print(forms['team'].subnet.data)
         print(forms['team'].netmask.data)
         success = True
-    return render_template('config.html', success=success, forms=forms)
+    return render_template('config.html', success=success, forms=forms, config=config)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

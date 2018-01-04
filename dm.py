@@ -1,27 +1,11 @@
 import db
 from model import *
 from web_model import User
-import importlib
 import pickle
 import json
 import re
 import bcrypt
-
-def load_module(module_str):
-    """
-    Get the module specified by the given string.
-    
-    Arguments:
-        module_str (str): String representing the module's import path
-
-    Returns:
-        Module: The module represented by the string
-    """
-    parts = module_str.split('.')
-    par_module_str = '.'.join(parts[:len(parts)-1])
-    module = importlib.import_module(par_module_str)
-    module_obj = getattr(module, parts[-1])
-    return module_obj
+import module
 
 class DataManager(object):
 
@@ -196,8 +180,8 @@ class DataManager(object):
 
             # Build check
             ios = check_ios[check_id]
-            check_function = load_module(check_string)
-            poller_class = load_module(poller_string)
+            check_function = module.load_obj(check_string)
+            poller_class = module.load_obj(poller_string)
             poller = poller_class()
             check = Check(check_id, name, check_function,
                           ios, poller)

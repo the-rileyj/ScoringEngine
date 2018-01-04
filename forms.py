@@ -3,6 +3,8 @@ from wtforms import *
 from wtforms.validators import *
 import bcrypt
 import flask_login
+import module
+import polling, checker
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired()])
@@ -102,6 +104,7 @@ class WebUserForm(FlaskForm):
 
     def __init__(self, teams):
         super(WebUserForm, self).__init__()
+        teams = [(id, t['name']) for id, t in teams.items()]
         self.team.choices = [(0, 'None')] + teams
 
 class ServiceForm(FlaskForm):
@@ -116,9 +119,11 @@ class CheckForm(FlaskForm):
 
     def __init__(self, services):
         super(CheckForm, self).__init__()
-        self.check_function.choices = []
-        self.poller.choices = []
-        self.service.choices = services
+        check_funcs = module.get_functions_below(checker)
+        self.check_function.choices = [(c, c) for c in check_funcs]
+        pollers = module.get_classes_below_matching(polling, '.+Poller')
+        self.poller.choices = [(p, p) for p in pollers]
+        self.service.choices = [(id, 'Host: %s, Port: %s' % (s['host'], s['port'])) for id, s in services.items()]
 
 class PollInputForm(FlaskForm):
     input_type = SelectField('Input Type', validators=[InputRequired()])
@@ -126,14 +131,15 @@ class PollInputForm(FlaskForm):
 
     def __init__(self):
         super(PollInputForm, self).__init__()
-        self.input_type.choices = []
-
+        types = module.get_classes_below_matching(polling, '.+PollInput')
+        self.input_type.choices = [(t, t) for t in types]
 class CheckIoForm(FlaskForm):
     check = SelectField('Check', validators=[InputRequired()])
+    # TODO expecteds?
 
     def __init__(self, checks):
         super(CheckIoForm, self).__init__()
-        self.check.choices = checks
+        self.check.choices = [(id, c['name']) for id, c in checks.items()]
 
 class CredentialForm(FlaskForm):
     domain = SelectField('Domain', validators=[InputRequired()])
@@ -141,7 +147,7 @@ class CredentialForm(FlaskForm):
     password = TextField('Password', validators=[InputRequired()])
     check_ios = SelectMultipleField('Check IOs', validators=[InputRequired()])
 
-    def __init__(self, domains, check_ios):
+    def __init__(self, domains, inputs, check_ios):
         super(CredentialForm, self).__init__()
-        self.domain.choices = [(0, 'None')] + domains
-        self.check_ios.choices = check_ios
+        self.domain.choices = [(0, 'None')] + [(id, d['fqdn']) for id, d in domains.items()]
+        self.check_ios.choices = [(id, '%s:%s->%s' % (inputs[c['input']]['input_type'], inputs[c['input']]['input'], c['expected'])) for id, c in check_ios.items()] # TODO

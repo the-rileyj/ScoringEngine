@@ -1,5 +1,5 @@
 #!/bin/python
-import dm
+import module
 import json
 import re
 
@@ -26,9 +26,10 @@ def boolean(b):
 def check_function(func_str):
     try:
         parts = func_str.split('.')
+        print(parts)
         if parts[0] != 'checker':
             raise Exception()
-        dm.load_module(func_str)
+        module.load_obj(func_str)
     except:
         raise Exception("Invalid check function: %s" % func_str)
 
@@ -39,7 +40,7 @@ def poller(poller_str):
             raise Exception()
         if 'Poller' not in parts[-1]:
             raise Exception()
-        dm.load_module(poller_str)
+        module.load_obj(poller_str)
     except Exception as e:
         raise e
         raise Exception("Invalid poller: %s" % poller_str)
@@ -51,7 +52,7 @@ def input_class(class_str):
             raise Exception()
         if 'PollInput' not in parts[-1]:
             raise Exception()
-        dm.load_module(class_str)
+        module.load_obj(class_str)
     except Exception as e:
         raise e
         raise Exception("Invalid PollInput: %s" % class_str)

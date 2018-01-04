@@ -4,7 +4,7 @@ import json
 import pickle
 from model import *
 from dm import DataManager
-from dm import load_module
+import module
 import validate
 
 def load_config(filename):
@@ -195,7 +195,7 @@ def parse_poll_inputs(contents):
         validate.input_class(input_class_str)
         validate.jsondata(args)
 
-        input_class = load_module(input_class_str)
+        input_class = module.load_obj(input_class_str)
         args = json.loads(args)
         input = input_class(*args)
         

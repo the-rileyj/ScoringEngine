@@ -33,7 +33,7 @@
                 <td>{{ t.name }}</td>
                 <td>{{ t.subnet }}</td>
                 <td>{{ t.netmask }}</td>
-                <td class="btn-td">{{ modals.edit_button('team-modal') }} {{ modals.delete_button() }}</td>
+                <td class="btn-td">{{ modals.delete_button() }} {{ modals.edit_button('team-modal') }}</td>
             </tr>
             {% endfor %}
             <tr>
@@ -57,7 +57,7 @@
             {% for id, d in config['domains'].items() %}
             <tr>
                 <td>{{ d.fqdn }}</td>
-                <td class="btn-td">{{ modals.edit_button('domain-modal') }} {{ modals.delete_button() }}</td>
+                <td class="btn-td">{{ modals.delete_button() }} {{ modals.edit_button('domain-modal') }}</td>
             </tr>
             {% endfor %}
             <tr>
@@ -95,7 +95,7 @@
                 {% endif %}
                 </td>
                 <td>{{ u.is_admin }}</td>
-                <td class="btn-td">{{ modals.edit_button('web-user-modal') }} {{ modals.delete_button() }}</td>
+                <td class="btn-td">{{ modals.delete_button() }} {{ modals.edit_button('web-user-modal') }}</td>
             </tr>
             {% endfor %}
             <tr>
@@ -122,7 +122,7 @@
             <tr>
                 <td>{{ s.host }}</td>
                 <td>{{ s.port }}</td>
-                <td class="btn-td">{{ modals.edit_button('service-modal') }} {{ modals.delete_button() }}</td>
+                <td class="btn-td">{{ modals.delete_button() }} {{ modals.edit_button('service-modal') }}</td>
             </tr>
             {% endfor %}
             <tr>
@@ -157,7 +157,7 @@
                 {% with s=config['services'][c.service] %}
                 <td>{{ "Host:%s, Port:%s"|format(s.host, s.port) }}</td>
                 {% endwith %}
-                <td class="btn-td">{{ modals.edit_button('check-modal') }} {{ modals.delete_button() }}</td>
+                <td class="btn-td">{{ modals.delete_button() }} {{ modals.edit_button('check-modal') }}</td>
             </tr>
             {% endfor %}
             <tr>
@@ -184,7 +184,7 @@
             <tr>
                 <td>{{ i.input_type }}</td>
                 <td>{{ i.input }}</td>
-                <td class="btn-td">{{ modals.edit_button('input-modal') }} {{ modals.delete_button() }}</td>
+                <td class="btn-td">{{ modals.delete_button() }} {{ modals.edit_button('input-modal') }}</td>
             </tr>
             {% endfor %}
             <tr>
@@ -219,7 +219,7 @@
                     <td>{{ "%s:%s"|format(i.input_type, i.input) }}</td>
                     {% endwith %}
                     <td>{{ c.expected }}</td>
-                    <td class="btn-td">{{ modals.edit_button('checkio-modal') }} {{ modals.delete_button() }}</td>
+                    <td class="btn-td">{{ modals.delete_button() }} {{ modals.edit_button('checkio-modal') }}</td>
                 </tr>
                 {% endfor %}
                 <tr>
@@ -267,7 +267,7 @@
                         {% endfor %}
                         </ul>
                     </td>
-                    <td class="btn-td">{{ modals.edit_button('credential-modal') }} {{ modals.delete_button() }}</td>
+                    <td class="btn-td">{{ modals.delete_button() }} {{ modals.edit_button('credential-modal') }}</td>
                 </tr>
                 {% endfor %}
                 <tr>

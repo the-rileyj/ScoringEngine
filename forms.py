@@ -112,7 +112,7 @@ class ServiceForm(FlaskForm):
     port = IntegerField('Port', validators=[InputRequired(), NumberRange(1, 65535)])
 
 class CheckForm(FlaskForm):
-    name = TextField('Username', validators=[InputRequired()])
+    name = TextField('Name', validators=[InputRequired()])
     check_function = SelectField('Check Function', validators=[InputRequired()])
     poller = SelectField('Poller', validators=[InputRequired()])
     service = SelectField('Service', validators=[InputRequired()])
@@ -135,11 +135,13 @@ class PollInputForm(FlaskForm):
         self.input_type.choices = [(t, t) for t in types]
 class CheckIoForm(FlaskForm):
     check = SelectField('Check', validators=[InputRequired()])
+    input = SelectField('Input', validators=[InputRequired()])
     # TODO expecteds?
 
-    def __init__(self, checks):
+    def __init__(self, checks, inputs):
         super(CheckIoForm, self).__init__()
         self.check.choices = [(id, c['name']) for id, c in checks.items()]
+        self.input.choices = [(id, '%s:%s' % (i['input_type'], i['input'])) for id, i in inputs.items()]
 
 class CredentialForm(FlaskForm):
     domain = SelectField('Domain', validators=[InputRequired()])

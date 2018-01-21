@@ -4,6 +4,7 @@ config['teams'] = {}
 config['domains'] = {}
 config['services'] = {}
 config['checks'] = {}
+config['inputs'] = {}
 config['check_ios'] = {}
 
 def get_forms():
@@ -14,6 +15,6 @@ def get_forms():
     forms['service'] = ServiceForm()
     forms['check'] = CheckForm(config['services'])
     forms['input'] = PollInputForm()
-    forms['checkio'] = CheckIoForm(config['checks'])
+    forms['checkio'] = CheckIoForm(config['checks'], config['inputs'])
     forms['credential'] = CredentialForm(config['domains'], config['inputs'], config['check_ios'])
     return forms

@@ -1,5 +1,7 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 import poplib
-
 from polling.poller import PollInput, PollResult, Poller
 
 class PopPollInput(PollInput):
@@ -7,6 +9,11 @@ class PopPollInput(PollInput):
     def __init__(self, starttls, server=None, port=None):
         super(PopPollInput, self).__init__(server, port)
         self.starttls = starttls
+
+
+class PopPollInputForm(FlaskForm):
+    starttls = BooleanField('Use STARTTLS', validators=[InputRequired()])
+
 
 class PopPollResult(PollResult):
 

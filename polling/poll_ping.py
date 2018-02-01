@@ -1,11 +1,17 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 import subprocess
-
 from polling.poller import PollInput, PollResult, Poller
 
 class PingPollInput(PollInput):
 
     def __init__(self, server=None, port=None):
         super(PingPollInput, self).__init__(server, port)
+
+
+class PingPollInputForm(FlaskForm):
+    pass
 
 class PingPollResult(PollResult):
 

@@ -1,3 +1,6 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 from dns import resolver
 from dns.resolver import *
 from .poller import PollInput, PollResult, Poller
@@ -14,6 +17,20 @@ class DnsPollInput(PollInput):
         super(DnsPollInput, self).__init__(server, port)
         self.record_type = record_type
         self.query = query
+
+
+class DnsPollInputForm(FlaskForm):
+    record_type = SelectField('Record Type', Validators=[InputRequired()], choices=[
+                    ('A', 'A'),
+                    ('AAAA', 'AAAA')
+                    ('PTR', 'PTR'),
+                    ('NS', 'NS'),
+                    ('MX', 'MX'),
+                    ('TXT', 'TXT'),
+                    ('SOA', 'SOA'),
+                    ])
+    query = TextField('Query', validators=[InputRequired()])
+
 
 class DnsPollResult(PollResult):
     """Wrapper for the results of polling a DNS service.

@@ -1,3 +1,6 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 from imaplib import IMAP4
 import socket
 from polling.poller import PollInput, PollResult, Poller
@@ -7,6 +10,11 @@ class ImapPollInput(PollInput):
     def __init__(self, starttls, server=None, port=None):
         super(ImapPollInput, self).__init__(server, port)
         self.starttls = starttls
+
+
+class ImapPollInputForm(FlaskForm):
+    starttls = BooleanField('Use STARTTLS', validators=[InputRequired()])
+
 
 class ImapPollResult(PollResult):
 

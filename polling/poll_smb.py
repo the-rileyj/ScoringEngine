@@ -1,3 +1,6 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 import smb
 from smb.base import *
 from smb.smb_structs import *
@@ -15,6 +18,13 @@ class SmbPollInput(PollInput):
         self.hostname = hostname
         self.sharename = sharename
         self.path = path
+
+
+class SmbPollInputForm(FlaskForm):
+    hostname = TextField('Hostname', validators=[InputRequired()])
+    sharename = TextField('Share Name', validators=[InputRequired()])
+    path = TextField('File Path', validators=[InputRequired()])
+
 
 class SmbPollResult(PollResult):
 

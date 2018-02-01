@@ -1,7 +1,9 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 from smtplib import *
 import socket
 import random
-
 from polling.poller import PollInput, PollResult, Poller
 
 class SmtpPollInput(PollInput):
@@ -11,6 +13,12 @@ class SmtpPollInput(PollInput):
         self.fqdn = fqdn
         self.users = users
         self.message = message
+
+
+class SmtpPollInputForm(FlaskForm):
+    fqdn = TextField('FQDN', validators=[InputRequired()])
+    users = TextAreaField('Users', validators=[InputRequired()])
+    message = TextAreaField('Message', validators=[InputRequired()])
 
 
 class SmtpPollResult(PollResult):

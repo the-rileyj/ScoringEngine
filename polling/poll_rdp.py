@@ -1,11 +1,18 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 import subprocess
-
 from .poller import PollInput, PollResult, Poller
 
 class RdpPollInput(PollInput):
 
     def __init__(self, server=None, port=None):
         super(RdpPollInput, self).__init__(server, port)
+
+
+class RdpPollInputForm(FlaskForm):
+    pass
+
 
 class RdpPollResult(PollResult):
 

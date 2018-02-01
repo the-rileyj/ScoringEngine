@@ -1,3 +1,6 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 from .poller import PollInput, PollResult, Poller
 import datetime
 
@@ -13,6 +16,11 @@ class LogPollInput(PollInput):
         super(LogPollInput, self).__init__(server, port)
         self.log_file = log_file
         self.time_period = int(time_period)
+
+
+class LogPollInputForm(FlaskForm):
+    log_file = TextField('Log File Path', validators=[InputRequired()])
+    time_period = IntegerField('Seconds Before Search', validators=[InputRequired(), NumberRange(min=0)])
 
 class LogPollResult(PollResult):
     """Wrapper for the results of polling a log file.

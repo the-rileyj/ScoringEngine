@@ -1,3 +1,6 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 from paramiko import client
 from paramiko.ssh_exception import *
 import socket
@@ -8,6 +11,10 @@ class SshPollInput(PollInput):
 
     def __init__(self, server=None, port=None):
         super(SshPollInput, self).__init__(server, port)
+
+
+class SshPollInputForm(FlaskForm):
+    pass
 
 
 class SshPollResult(PollResult):

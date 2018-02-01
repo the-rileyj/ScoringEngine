@@ -1,3 +1,6 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 import requests
 from requests.exceptions import *
 import tempfile
@@ -10,6 +13,13 @@ class HttpPollInput(PollInput):
         super(HttpPollInput, self).__init__(server, port)
         self.proto = proto
         self.path = path
+
+
+class HttpPollInputForm(FlaskForm):
+    proto = SelectField('Protocol', validators=[InputRequired()],
+                                    choices=[('http', 'http'),
+                                             ('https', 'https')])
+    path = TextField('Path')
 
 class HttpPollResult(PollResult):
 

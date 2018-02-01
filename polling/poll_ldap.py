@@ -1,5 +1,7 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 import ldap
-
 from .poller import PollInput, PollResult, Poller
 
 class LdapPollInput(PollInput):
@@ -10,6 +12,13 @@ class LdapPollInput(PollInput):
         self.base = base
         self.filter = filter
         self.attributes = attributes
+
+
+class LdapPollInputForm(FlaskForm):
+    dn = TextField('DN', validators=[InputRequired()])
+    base = TextField('Base', validators=[InputRequired()])
+    filter = TextField('Filter', validators=[InputRequired()])
+    attributes = TextField('Attributes', validators=[InputRequired()])
 
 class LdapPollResult(PollResult):
 

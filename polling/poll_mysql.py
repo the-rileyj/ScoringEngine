@@ -1,5 +1,7 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 import pymysql
-
 from .poller import PollInput, PollResult, Poller
 
 class MySqlPollInput(PollInput):
@@ -8,6 +10,12 @@ class MySqlPollInput(PollInput):
         super(MySqlPollInput, self).__init__(server, port)
         self.db = db
         self.query = query
+
+
+class MySqlPollInputForm(FlaskForm):
+    db = TextField('DB', validators=[InputRequired()])
+    query = TextField('Query', validators=[InputRequired()])
+
 
 class MySqlPollResult(PollResult):
 

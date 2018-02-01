@@ -1,6 +1,8 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 import pymssql
 import socket
-
 from .poller import PollInput, PollResult, Poller
 
 class MsSqlPollInput(PollInput):
@@ -10,6 +12,16 @@ class MsSqlPollInput(PollInput):
         self.domain = domain
         self.db = db
         self.query = query
+
+
+class MsSqlPollInputForm(FlaskForm):
+    domain = SelectField('Domain', validators=[InputRequired()]
+    db = TextField('DB', validators=[InputRequired()])
+    query = TextField('Query', validators=[InputRequired()])
+
+    def __init__(self, domains):
+        super(MsSqlPollInputForm, self).__init__()
+        self.domain.choices = [(0, 'None')) + [(id, d['fqdn']) for id, d in domains.items()]
 
 class MsSqlPollResult(PollResult):
 

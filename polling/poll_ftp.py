@@ -1,3 +1,6 @@
+from flask_wtf import FlaskForm
+from wtforms import *
+from wtforms.validators import *
 import ftplib
 import tempfile
 from .poller import PollInput, PollResult, Poller
@@ -11,6 +14,10 @@ class FtpPollInput(PollInput):
     def __init__(self, filepath, server=None, port=None):
         super(FtpPollInput, self).__init__(server, port)
         self.filepath = filepath
+
+
+class FtpPollInputForm(FlaskForm):
+    filepath = TextField('File Path', validators=[InputRequired()])
 
 class FtpPollResult(PollResult):
     """Wrapper for the results of polling an FTP service.

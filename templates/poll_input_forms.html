@@ -1,0 +1,63 @@
+
+{% with f=forms['poll_inputs'] %}
+    <div id="pi-dns">
+        <div class="form-group">
+            {{ f['dns'].record_type.label }}
+            {{ f['dns'].record_type(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ f['dns'].query.label }}
+            {{ f['dns'].query(class_="form-control") }}
+        </div>
+    </div>
+    <div id="pi-ftp">
+        <div class="form-group">
+            {{ f['ftp'].filepath.label }}
+            {{ f['ftp'].filepath(class_="form-control") }}
+        </div>
+    </div>
+    <div id="pi-http">
+        <div class="form-group">
+            {{ f['http'].proto.label }}
+            {{ f['http'].proto(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ f['http'].path.label }}
+            {{ f['http'].path(class_="form-control") }}
+        </div>
+    </div>
+    <div id="pi-imap">
+        <div class="form-group">
+            {{ f['imap'].starttls.label }}
+            {{ f['imap'].starttls(class_="form-control") }}
+        </div>
+    </div>
+    <div id="pi-ldap">
+        <div class="form-group">
+            {{ f['ldap'].dn.label }}
+            {{ f['ldap'].dn(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ f['ldap'].base.label }}
+            {{ f['ldap'].base(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ f['ldap'].filter.label }}
+            {{ f['ldap'].filter(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ f['ldap'].attributes.label }}
+            {{ f['ldap'].attributes(class_="form-control") }}
+        </div>
+    </div>
+    <div id="pi-log">
+        <div class="form-group">
+            {{ f['log'].log_file.label }}
+            {{ f['log'].log_file(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ f['log'].time_period.label }}
+            {{ f['log'].time_period(class_="form-control") }}
+        </div>
+    </div>
+{% endwith %]
